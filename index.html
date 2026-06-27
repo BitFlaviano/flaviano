@@ -13,31 +13,18 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
         <span class="theme-icon">&#9728;</span>
     </button>
-    
+
     <section class="hero">
         <div class="hero-content">
             <div class="profile-img-wrapper">
                 <img src="profile.jpg" alt="Flaviano Sousa Porto" class="profile-img">
             </div>
-            <h1>Flaviano Sousa Porto</h1>
-            <p class="subtitle">Brasileiro, 34 anos &middot; Belo Horizonte - MG</p>
+            <h1 id="displayName">Flaviano Sousa Porto</h1>
+            <p class="subtitle" id="displaySubtitle"></p>
             <div class="typed-container">
                 <span id="typedText"></span><span class="cursor"></span>
             </div>
-            <div class="contact-links">
-                <a href="https://wa.me/5573988619948?text=Ol%C3%A1%2C%20tenho%20uma%20proposta%20de%20trabalho%2C%20teria%20interesse%3F" target="_blank">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    (73) 98861-9948
-                </a>
-                <a href="mailto:sousaportoflaviano@gmail.com.br">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    sousaportoflaviano@gmail.com.br
-                </a>
-                <a href="https://github.com/BitFlaviano" target="_blank">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    GitHub
-                </a>
-            </div>
+            <div class="contact-links" id="contactLinks"></div>
         </div>
         <div class="scroll-indicator">
             <div class="mouse"></div>
@@ -45,165 +32,48 @@
         </div>
     </section>
 
-    <div class="container">
-
-        <div class="section">
-            <div class="section-header">
-                <div class="icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                </div>
-                <h2>Objetivo</h2>
-                <div class="line"></div>
-            </div>
-            <div class="objective-card">
-                <p>Análise de dados, Ciência de dados e afins</p>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="section-header">
-                <div class="icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                </div>
-                <h2>Formação</h2>
-                <div class="line"></div>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="year">2026</div>
-                    <h3>Engenharia de Dados e IA Aplicada - Pós-graduação</h3>
-                    <div class="institution">PUC Minas</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="year">2024</div>
-                    <h3>Ciências da Computação</h3>
-                    <div class="institution">Faculdade Pitágoras</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="year">2021</div>
-                    <h3>Logística</h3>
-                    <div class="institution">Cebrac Santa Luzia MG</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="section-header">
-                <div class="icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                </div>
-                <h2>Experiência Profissional</h2>
-                <div class="line"></div>
-            </div>
-
-            <div class="job-card">
-                <div class="job-header">
-                    <h3>Gerente de T.I. <span class="company">&mdash; Kidverte</span></h3>
-                    <span class="period">Dez/2023 &mdash; Atual</span>
-                </div>
-                <p>Criação de ferramentas e soluções para otimizar rotinas. Manipulação e gerenciamento da base de dados. Criação de relatórios internos para tomada de decisões. Configuração e gerenciamento de segurança da informação com FireWall (FortGate Fortinet). Gerenciamento e suporte ao usuário do sistema ERP (Linx Millennium).</p>
-            </div>
-
-            <div class="job-card">
-                <div class="job-header">
-                    <h3>Técnico em Informática <span class="company">&mdash; Kidverte</span></h3>
-                    <span class="period">Nov/2021 &mdash; Dez/2023</span>
-                </div>
-                <p>Gerenciamento de equipamentos com manutenção preventiva e corretiva. Suporte ao usuário do sistema ERP (Linx Millennium).</p>
-            </div>
-
-            <div class="job-card">
-                <div class="job-header">
-                    <h3>Assistente Administrativo <span class="company">&mdash; Mix Móveis &amp; Eletro</span></h3>
-                    <span class="period">Jan/2017 &mdash; Ago/2019</span>
-                </div>
-                <p>Rotina administrativa/financeira, emissão e cadastro de notas fiscais, emissão de boletos. Gerenciamento de contas a pagar/receber e atividades fiscais. Gerenciamento do sistema ERP e SAP Siaf Adsoft. Manutenção de estações de trabalho e rede. Monitoramento de usuários.</p>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="section-header">
-                <div class="icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                </div>
-                <h2>Qualificações Profissionais</h2>
-                <div class="line"></div>
-            </div>
-            <div class="skills-grid">
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2026</span>
-                    <span class="skill-name">Power BI</span>
-                    <span class="skill-source">Fabridata</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2025</span>
-                    <span class="skill-name">Introdução à Ciência de Dados</span>
-                    <span class="skill-source">Santander | Open Academy</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2025</span>
-                    <span class="skill-name">Python</span>
-                    <span class="skill-source">Santander | Open Academy</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2020</span>
-                    <span class="skill-name">Excel Avançado</span>
-                    <span class="skill-source">Udemy (Excel Factory)</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2020</span>
-                    <span class="skill-name">VBA Excel + Sistemas + Access</span>
-                    <span class="skill-source">Udemy</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2019</span>
-                    <span class="skill-name">Gestão de Estoque - Siaf</span>
-                    <span class="skill-source">Adfsoft Gestão Empresarial</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2014</span>
-                    <span class="skill-name">HTML5, CSS3, JavaScript</span>
-                    <span class="skill-source">Eas Digital</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2011</span>
-                    <span class="skill-name">Assistente Administrativo</span>
-                    <span class="skill-source">Centro de Qualificação Providência</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2010</span>
-                    <span class="skill-name">Hardware Profissional</span>
-                    <span class="skill-source">Digital Treinamentos</span>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-dot"></span>
-                    <span class="skill-year">2009</span>
-                    <span class="skill-name">Informática</span>
-                    <span class="skill-source">C.E.I.</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <div class="container" id="mainContent"></div>
 
     <footer>
         <p>&copy; 2026 Flaviano Sousa Porto &mdash; Todos os direitos reservados</p>
-        <div class="footer-links">
-            <a href="tel:+5573988619948">Telefone</a>
-            <a href="mailto:sousaportoflaviano@gmail.com.br">E-mail</a>
-            <a href="https://github.com/BitFlaviano" target="_blank">GitHub</a>
-        </div>
+        <div class="footer-links" id="footerLinks"></div>
     </footer>
 
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Acesso Restrito</h2>
+            </div>
+            <div class="modal-body">
+                <p style="color:var(--text-muted);margin-bottom:1rem;text-align:center;">Digite a senha de administrador</p>
+                <input type="password" id="loginPassword" class="modal-input" placeholder="Senha" autocomplete="off">
+                <p id="loginError" style="color:#e74c3c;font-size:0.85rem;display:none;margin-top:0.5rem;">Senha incorreta</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeLogin()">Cancelar</button>
+                <button class="modal-btn modal-btn-primary" onclick="submitLogin()">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal modal-admin">
+            <div class="modal-header">
+                <h2>Painel Administrativo</h2>
+                <button class="modal-close" onclick="closeAdmin()">&times;</button>
+            </div>
+            <div class="modal-body admin-body" id="adminBody">
+                <nav class="admin-tabs" id="adminTabs"></nav>
+                <div class="admin-content" id="adminContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeAdmin()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="admin.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
