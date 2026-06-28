@@ -77,26 +77,46 @@ function getDefaultData() {
 }
 
 const DATA_KEY = 'portfolioData';
-const PASSWORD_KEY = 'portfolioPassword';
+let cachedData = null;
 
 function loadData() {
+    if (cachedData) return cachedData;
     const raw = localStorage.getItem(DATA_KEY);
     if (raw) {
-        try { return JSON.parse(raw); } catch (e) { /* fallback */ }
+        try {
+            cachedData = JSON.parse(raw);
+            return cachedData;
+        } catch (e) { /* fallback */ }
     }
-    const def = getDefaultData();
-    saveData(def);
-    return def;
+    cachedData = getDefaultData();
+    saveDataLocal(cachedData);
+    return cachedData;
 }
 
-function saveData(data) {
+function saveDataLocal(data) {
+    cachedData = data;
     localStorage.setItem(DATA_KEY, JSON.stringify(data));
 }
 
-function loadPassword() {
-    return localStorage.getItem(PASSWORD_KEY) || '';
+async function saveData(data) {
+    saveDataLocal(data);
+    const { error } = await supabaseClient
+        .from('portfolio_data')
+        .update({ data, updated_at: new Date().toISOString() })
+        .eq('id', 1);
+    if (error) {
+        console.warn('Save to Supabase failed (need auth?):', error.message);
+    }
 }
 
-function savePassword(pwd) {
-    localStorage.setItem(PASSWORD_KEY, pwd);
+async function initSupabaseData() {
+    const { data, error } = await supabaseClient
+        .from('portfolio_data')
+        .select('data')
+        .eq('id', 1)
+        .single();
+    if (!error && data && data.data && Object.keys(data.data).length > 0) {
+        cachedData = data.data;
+        localStorage.setItem(DATA_KEY, JSON.stringify(cachedData));
+    }
 }

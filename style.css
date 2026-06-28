@@ -62,6 +62,42 @@ body {
     padding: 0 1.5rem;
 }
 
+.auth-status {
+    position: fixed;
+    top: 1.2rem;
+    left: 1.2rem;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.auth-status.active {
+    color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.auth-status .auth-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: background 0.3s;
+}
+
+.auth-status.active .auth-dot {
+    background: #2ecc71;
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+}
+
 .theme-toggle {
     position: fixed;
     top: 1.2rem;

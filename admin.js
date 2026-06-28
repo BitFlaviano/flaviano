@@ -6,33 +6,77 @@ const ICONS = {
     globe: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
 };
 
+let isRegisterMode = false;
+
 function openLogin() {
     document.getElementById('loginModal').classList.add('active');
+    document.getElementById('loginEmail').value = '';
     document.getElementById('loginPassword').value = '';
     document.getElementById('loginError').style.display = 'none';
-    setTimeout(() => document.getElementById('loginPassword').focus(), 100);
+    document.getElementById('loginSuccess').style.display = 'none';
+    isRegisterMode = false;
+    document.getElementById('loginSubmitBtn').textContent = 'Entrar';
+    document.getElementById('loginToggle').textContent = 'Criar nova conta';
+    setTimeout(() => document.getElementById('loginEmail').focus(), 100);
 }
 
 function closeLogin() {
     document.getElementById('loginModal').classList.remove('active');
 }
 
-function submitLogin() {
-    const pwd = document.getElementById('loginPassword').value;
-    const saved = loadPassword();
-    if (!saved) {
-        savePassword(pwd);
-        closeLogin();
-        openAdmin();
+function toggleLoginMode(e) {
+    e.preventDefault();
+    isRegisterMode = !isRegisterMode;
+    const btn = document.getElementById('loginSubmitBtn');
+    const toggle = document.getElementById('loginToggle');
+    const err = document.getElementById('loginError');
+    const suc = document.getElementById('loginSuccess');
+    err.style.display = 'none';
+    suc.style.display = 'none';
+    if (isRegisterMode) {
+        btn.textContent = 'Registrar';
+        toggle.textContent = 'Já tenho conta, fazer login';
+    } else {
+        btn.textContent = 'Entrar';
+        toggle.textContent = 'Criar nova conta';
+    }
+}
+
+async function submitLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errEl = document.getElementById('loginError');
+    const sucEl = document.getElementById('loginSuccess');
+    errEl.style.display = 'none';
+    sucEl.style.display = 'none';
+
+    if (!email || !password) {
+        errEl.textContent = 'Preencha email e senha';
+        errEl.style.display = 'block';
         return;
     }
-    if (pwd === saved) {
+
+    if (isRegisterMode) {
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) {
+            errEl.textContent = error.message;
+            errEl.style.display = 'block';
+            return;
+        }
+        sucEl.textContent = 'Conta criada! Verifique seu email para confirmar.';
+        sucEl.style.display = 'block';
+        isRegisterMode = false;
+        document.getElementById('loginSubmitBtn').textContent = 'Entrar';
+        document.getElementById('loginToggle').textContent = 'Criar nova conta';
+    } else {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) {
+            errEl.textContent = error.message;
+            errEl.style.display = 'block';
+            return;
+        }
         closeLogin();
         openAdmin();
-    } else {
-        document.getElementById('loginError').style.display = 'block';
-        document.getElementById('loginPassword').value = '';
-        document.getElementById('loginPassword').focus();
     }
 }
 
@@ -217,13 +261,14 @@ TAB_RENDERERS.password = (data, container) => {
     container.innerHTML = `
         <div class="admin-field">
             <label>Nova Senha</label>
-            <input class="modal-input" type="password" id="af_password" placeholder="Nova senha">
+            <input class="modal-input" type="password" id="af_password" placeholder="Nova senha" autocomplete="new-password">
         </div>
         <div class="admin-field">
             <label>Confirmar Senha</label>
-            <input class="modal-input" type="password" id="af_password2" placeholder="Confirmar senha">
+            <input class="modal-input" type="password" id="af_password2" placeholder="Confirmar senha" autocomplete="new-password">
         </div>
-        <p id="pwdError" style="color:#e74c3c;font-size:0.85rem;display:none;">Senhas não conferem</p>
+        <p id="pwdError" style="color:#e74c3c;font-size:0.85rem;display:none;"></p>
+        <p id="pwdSuccess" style="color:#2ecc71;font-size:0.85rem;display:none;"></p>
         <button class="modal-btn modal-btn-primary" onclick="savePasswordAdmin()">Alterar Senha</button>
     `;
 };
@@ -411,21 +456,72 @@ function saveTypingPhrases() {
     initTypingEffect();
 }
 
-function savePasswordAdmin() {
+async function savePasswordAdmin() {
     const p1 = document.getElementById('af_password').value;
     const p2 = document.getElementById('af_password2').value;
-    if (p1 !== p2 || !p1) {
-        document.getElementById('pwdError').style.display = 'block';
+    const errEl = document.getElementById('pwdError');
+    const sucEl = document.getElementById('pwdSuccess');
+    errEl.style.display = 'none';
+    sucEl.style.display = 'none';
+    if (!p1) {
+        errEl.textContent = 'Digite a nova senha';
+        errEl.style.display = 'block';
         return;
     }
-    document.getElementById('pwdError').style.display = 'none';
-    savePassword(p1);
-    renderAdminTab('password');
+    if (p1 !== p2) {
+        errEl.textContent = 'Senhas não conferem';
+        errEl.style.display = 'block';
+        return;
+    }
+    if (p1.length < 6) {
+        errEl.textContent = 'Mínimo de 6 caracteres';
+        errEl.style.display = 'block';
+        return;
+    }
+    const { error } = await supabaseClient.auth.updateUser({ password: p1 });
+    if (error) {
+        errEl.textContent = error.message;
+        errEl.style.display = 'block';
+        return;
+    }
+    document.getElementById('af_password').value = '';
+    document.getElementById('af_password2').value = '';
+    sucEl.textContent = 'Senha alterada com sucesso!';
+    sucEl.style.display = 'block';
 }
+
+function updateAuthStatus(session) {
+    const el = document.getElementById('authStatus');
+    if (session) {
+        el.classList.add('active');
+        el.innerHTML = `<span class="auth-dot"></span> Admin: ${esc(session.user.email)} &middot; <a href="#" onclick="logout()" style="color:var(--accent);text-decoration:none;">Sair</a>`;
+    } else {
+        el.classList.remove('active');
+        el.innerHTML = '<span class="auth-dot"></span> Offline';
+    }
+}
+
+async function logout() {
+    await supabaseClient.auth.signOut();
+    closeAdmin();
+    renderPortfolio();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+        updateAuthStatus(session);
+        if (event === 'SIGNED_IN') {
+            loadData().then(() => renderPortfolio());
+        }
+    });
+});
 
 document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.altKey && e.metaKey && e.key.toLowerCase() === 'l') {
         e.preventDefault();
-        openLogin();
+        const btn = document.getElementById('loginSubmitBtn');
+        if (btn && btn.textContent === 'Entrar') {
+            openLogin();
+        }
     }
 });

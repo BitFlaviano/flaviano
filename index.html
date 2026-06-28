@@ -13,6 +13,7 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
         <span class="theme-icon">&#9728;</span>
     </button>
+    <div id="authStatus" class="auth-status"></div>
 
     <section class="hero">
         <div class="hero-content">
@@ -45,13 +46,18 @@
                 <h2>Acesso Restrito</h2>
             </div>
             <div class="modal-body">
-                <p style="color:var(--text-muted);margin-bottom:1rem;text-align:center;">Digite a senha de administrador</p>
-                <input type="password" id="loginPassword" class="modal-input" placeholder="Senha" autocomplete="off">
-                <p id="loginError" style="color:#e74c3c;font-size:0.85rem;display:none;margin-top:0.5rem;">Senha incorreta</p>
+                <p style="color:var(--text-muted);margin-bottom:1rem;text-align:center;">Faça login para acessar o painel</p>
+                <input type="email" id="loginEmail" class="modal-input" placeholder="E-mail" autocomplete="email" style="margin-bottom:0.5rem">
+                <input type="password" id="loginPassword" class="modal-input" placeholder="Senha" autocomplete="current-password">
+                <p id="loginError" style="color:#e74c3c;font-size:0.85rem;display:none;margin-top:0.5rem;"></p>
+                <p id="loginSuccess" style="color:#2ecc71;font-size:0.85rem;display:none;margin-top:0.5rem;"></p>
+                <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--text-muted)">
+                    <a href="#" id="loginToggle" style="color:var(--accent);text-decoration:none;" onclick="toggleLoginMode(event)">Criar nova conta</a>
+                </p>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-secondary" onclick="closeLogin()">Cancelar</button>
-                <button class="modal-btn modal-btn-primary" onclick="submitLogin()">Entrar</button>
+                <button class="modal-btn modal-btn-primary" id="loginSubmitBtn" onclick="submitLogin()">Entrar</button>
             </div>
         </div>
     </div>
@@ -72,6 +78,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <script src="data.js"></script>
     <script src="admin.js"></script>
     <script src="script.js"></script>
