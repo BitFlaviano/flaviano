@@ -20,6 +20,16 @@ function openLogin() {
     setTimeout(() => document.getElementById('loginEmail').focus(), 100);
 }
 
+document.getElementById('loginPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitLogin();
+});
+document.getElementById('loginEmail').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitLogin();
+});
+document.getElementById('loginModal').addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLogin();
+});
+
 function closeLogin() {
     document.getElementById('loginModal').classList.remove('active');
 }
@@ -52,6 +62,13 @@ async function submitLogin() {
 
     if (!email || !password) {
         errEl.textContent = 'Preencha email e senha';
+        errEl.style.display = 'block';
+        return;
+    }
+
+    const allowed = ['sousaportoflaviano@gmail.com', 'sousaportoflaviano@hotmail.com'];
+    if (!allowed.includes(email.toLowerCase())) {
+        errEl.textContent = 'Esse usuário não tem autorização para o login';
         errEl.style.display = 'block';
         return;
     }
@@ -491,14 +508,6 @@ async function savePasswordAdmin() {
 }
 
 function updateAuthStatus(session) {
-    const el = document.getElementById('authStatus');
-    if (session) {
-        el.classList.add('active');
-        el.innerHTML = `<span class="auth-dot"></span> Admin: ${esc(session.user.email)} &middot; <a href="#" onclick="logout()" style="color:var(--accent);text-decoration:none;">Sair</a>`;
-    } else {
-        el.classList.remove('active');
-        el.innerHTML = '<span class="auth-dot"></span> Offline';
-    }
 }
 
 async function logout() {
@@ -509,9 +518,9 @@ async function logout() {
 
 document.addEventListener('DOMContentLoaded', () => {
     supabaseClient.auth.onAuthStateChange((event, session) => {
-        updateAuthStatus(session);
         if (event === 'SIGNED_IN') {
-            loadData().then(() => renderPortfolio());
+            loadData();
+            renderPortfolio();
         }
     });
 });

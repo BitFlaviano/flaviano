@@ -1,9 +1,6 @@
 let typingInterval = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-        if (typeof updateAuthStatus === 'function') updateAuthStatus(session);
-    });
     await initSupabaseData();
     renderPortfolio();
     initThemeToggle();
